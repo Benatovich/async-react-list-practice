@@ -1,23 +1,29 @@
-import logo from './logo.svg';
+import homer from './spinner.gif';
 import './App.css';
+import TheoriesList from './TheoriesList';
+import fetchTheories from './services/fetch-utils.js';
+import { useState, useEffect } from 'react';
 
 function App() {
+  const [theories, setTheories] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  
+  async function fetchData() {
+    setLoading(true);
+
+    const data = await fetchTheories();
+
+    setLoading(false);
+    setTheories(data);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TheoriesList theories={theories}/>
     </div>
   );
 }
