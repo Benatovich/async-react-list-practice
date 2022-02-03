@@ -27,9 +27,9 @@ export async function fetchColors() {
   return checkError(response);
 }
 
-export async function fetchRats() {
+export async function fetchPlanets() {
   const response = await client
-    .from('rats')
+    .from('planets')
     .select();
 
   // return response.data;
