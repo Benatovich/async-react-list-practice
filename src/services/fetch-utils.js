@@ -1,6 +1,6 @@
 import { checkError, client } from './client';
 
-export default async function fetchTheories() {
+export async function fetchTheories() {
   const response = await client
     .from('conspiracy-theories')
     .select();

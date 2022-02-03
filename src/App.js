@@ -1,20 +1,24 @@
 import homer from './spinner.gif';
 import './App.css';
 import TheoriesList from './TheoriesList';
-import fetchTheories from './services/fetch-utils.js';
+import CandyList from './CandyList';
+import { fetchTheories, fetchCandies, fetchColors, fetchRats } from './services/fetch-utils.js';
 import { useState, useEffect } from 'react';
 
 function App() {
   const [theories, setTheories] = useState([]);
+  const [candies, setCandies] = useState([]);
   const [isLoading, setLoading] = useState(false);
   
   async function fetchData() {
     setLoading(true);
 
-    const data = await fetchTheories();
+    const theoryData = await fetchTheories();
+    const candyData = await fetchCandies();
 
     setLoading(false);
-    setTheories(data);
+    setTheories(theoryData);
+    setCandies(candyData);
   }
 
   useEffect(() => {
@@ -23,7 +27,17 @@ function App() {
 
   return (
     <div className="App">
-      <TheoriesList theories={theories}/>
+      <button onClick={fetchData}>Fetch Data</button>
+      <div className='candy'>
+        <h3>Candies</h3>
+        {isLoading ? <img src={homer} /> : <CandyList candies={candies} />}
+      </div>
+      <div className='theories'>
+        <h3>Conspiracy Theories</h3>
+        {
+          isLoading ? <img src={homer} /> : <TheoriesList theories={theories}/>
+        }
+      </div>
     </div>
   );
 }
